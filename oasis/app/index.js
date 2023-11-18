@@ -210,7 +210,7 @@ const welcome = StyleSheet.create({
     width: 300,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 80,
+    marginTop: 130,
     textAlign: "center",
     backgroundColor: bg_dark,
     shadowColor: "#000",
