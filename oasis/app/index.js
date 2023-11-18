@@ -1,9 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-// import { RobotoFlex_400Regular } from "@expo-google-fonts/roboto-flex";
-// import { Raleway_400Regular } from "@expo-google-fonts/raleway";
+import { RobotoFlex_400Regular } from "@expo-google-fonts/roboto-flex";
+import { Raleway_400Regular } from "@expo-google-fonts/raleway";
 import Menu from "../components/Menu";
-// import { useFonts } from "expo-font";
+import { useFonts } from "expo-font";
 import {
   bg_black,
   bg_dark,
@@ -18,15 +18,15 @@ import { Pressable } from "react-native";
 
 export default function App() {
   // const [lang, setLang] = useState(languages[0]);
-  // const [fontsLoaded] = useFonts({
-  //   // RobotoFlex_700Bold,
-  //   // RobotoFlex_600SemiBold,
-  //   RobotoFlex_400Regular,
-  //   Raleway_400Regular,
-  // });
-  // if (!fontsLoaded) {
-  // return null;
-  // }
+  const [fontsLoaded] = useFonts({
+    // RobotoFlex_700Bold,
+    // RobotoFlex_600SemiBold,
+    RobotoFlex_400Regular,
+    Raleway_400Regular,
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <View style={welcome.welcome}>
