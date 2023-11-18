@@ -1,9 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { RobotoFlex_400Regular } from "@expo-google-fonts/roboto-flex";
-import { Raleway_400Regular } from "@expo-google-fonts/raleway";
 import Menu from "../components/Menu";
-import { useFonts } from "expo-font";
+import { router } from "expo-router";
 import {
   bg_black,
   bg_dark,
@@ -18,48 +16,73 @@ import { Pressable } from "react-native";
 
 export default function App() {
   // const [lang, setLang] = useState(languages[0]);
-  const [fontsLoaded] = useFonts({
-    // RobotoFlex_700Bold,
-    // RobotoFlex_600SemiBold,
-    RobotoFlex_400Regular,
-    Raleway_400Regular,
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
+
   return (
     <View style={styles.container}>
       <View style={welcome.welcome}>
         <Text style={text.welcome}>Welcome back!</Text>
       </View>
-      <View style={styles.top_level}>
-        <Text style={text.checkup}>Today's Mood</Text>
-        <Text style={text.streak}>You're on a streak of 16!</Text>
-      </View>
+      <Pressable
+        onPress={() => {
+          router.push("/mood");
+        }}
+      >
+        <View style={styles.top_level}>
+          <Text style={text.checkup}>Today's Mood</Text>
+          <Text style={text.streak}>You're on a streak of 16!</Text>
+        </View>
+      </Pressable>
       <View style={styles.middle}>
         <Text style={text.meditate}>Meditation</Text>
         <View style={meditate.btns}>
-          <Pressable style={meditate.btn} onPress={() => {}}>
+          <Pressable
+            style={meditate.btn}
+            onPress={() => {
+              router.push("/meditate/15");
+            }}
+          >
             <Text style={text.btn}>15 Min</Text>
           </Pressable>
-          <Pressable style={meditate.btn} onPress={() => {}}>
+          <Pressable
+            style={meditate.btn}
+            onPress={() => {
+              router.push("/meditate/30");
+            }}
+          >
             <Text style={text.btn}>30 Min</Text>
           </Pressable>
-          <Pressable style={meditate.btn} onPress={() => {}}>
+          <Pressable
+            style={meditate.btn}
+            onPress={() => {
+              router.push("/meditate/60");
+            }}
+          >
             <Text style={text.btn}>60 Min</Text>
           </Pressable>
         </View>
       </View>
       <View style={styles.double_box}>
-        <View style={boxes.left_box}>
-          <Text style={text.left_box}>Routines</Text>
-        </View>
-        <View style={boxes.right_box}>
-          <Text style={text.right_box}>Healthy Diets</Text>
-        </View>
+        <Pressable
+          onPress={() => {
+            router.push("/routines");
+          }}
+        >
+          <View style={boxes.left_box}>
+            <Text style={text.left_box}>Routines</Text>
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            router.push("/diets");
+          }}
+        >
+          <View style={boxes.right_box}>
+            <Text style={text.right_box}>Healthy Diets</Text>
+          </View>
+        </Pressable>
       </View>
       <View style={styles.bottom_level}>
-        <Menu />
+        <Menu settings={true} hotlines={true} progress={true} />
       </View>
       <StatusBar style="auto" />
     </View>
@@ -128,7 +151,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const text = StyleSheet.create({
+export const text = StyleSheet.create({
   welcome: {
     fontSize: 30,
     color: bg_black,
@@ -200,7 +223,7 @@ const boxes = StyleSheet.create({
   },
 });
 
-const welcome = StyleSheet.create({
+export const welcome = StyleSheet.create({
   welcome: {
     borderRadius: 9,
     maxHeight: "auto",

@@ -1,22 +1,73 @@
 import { StyleSheet, Text, View } from "react-native";
 import { bg_black, bg_dark } from "../variables/vars";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Pressable } from "react-native";
+import { router } from "expo-router";
 
-export default function Menu() {
+export default function Menu({ settings, hotlines, progress }) {
   return (
     <View style={styles.container}>
-      <View style={styles.left}>
-        <Ionicons name="settings-outline" size={24} color="black" />
-        <Text>Settings</Text>
-      </View>
-      <View style={styles.middle}>
-        <Ionicons name="alert-circle-outline" size={24} color="black" />
-        <Text>Hotlines</Text>
-      </View>
-      <View style={styles.right}>
-        <Ionicons name="bar-chart-outline" size={24} color="black" />
-        <Text>Progress</Text>
-      </View>
+      {(settings && (
+        <Pressable
+          onPress={() => {
+            router.push("/settings");
+          }}
+        >
+          <View style={styles.left}>
+            <Ionicons name="settings-outline" size={24} color="black" />
+            <Text>Settings</Text>
+          </View>
+        </Pressable>
+      )) || (
+        <Pressable
+          onPress={() => {
+            router.push("/");
+          }}
+        >
+          <View style={styles.left}>
+            <Ionicons name="home-outline" size={24} color="black" />
+            <Text> ‎ ‎Home‎‎‎ ‎‎‎‎‎‎‎‎‎ </Text>
+          </View>
+        </Pressable>
+      )}
+      {(hotlines && (
+        <Pressable onPress={() => {}}>
+          <View style={styles.middle}>
+            <Ionicons name="alert-circle-outline" size={24} color="black" />
+            <Text>Hotlines</Text>
+          </View>
+        </Pressable>
+      )) || (
+        <Pressable
+          onPress={() => {
+            router.push("/");
+          }}
+        >
+          <View style={styles.left}>
+            <Ionicons name="home" size={24} color="black" />
+            <Text>Home</Text>
+          </View>
+        </Pressable>
+      )}
+      {(progress && (
+        <Pressable onPress={() => {}}>
+          <View style={styles.right}>
+            <Ionicons name="bar-chart-outline" size={24} color="black" />
+            <Text>Progress</Text>
+          </View>
+        </Pressable>
+      )) || (
+        <Pressable
+          onPress={() => {
+            router.push("/");
+          }}
+        >
+          <View style={styles.left}>
+            <Ionicons name="home" size={24} color="black" />
+            <Text>Home</Text>
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 }
