@@ -26,10 +26,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     // alignSelf: "flex-end",
     // marginTop: 300,
-    positionn: "absolute",
     bottom: 0,
     height: 100,
 
     textAlign: "center",
   },
 });
+
+{
+  /* <Text style={styles.hello}>{lang}</Text> */
+}
+
+{
+  /* <Pressable
+  style={styles.change_language}
+  onPress={() => {
+    setLang(lang === languages[0] ? languages[1] : languages[0]);
+  }}
+>
+  <Text>Change Language</Text>
+</Pressable> */
+}
+// "main": "node_modules/expo/AppEntry.js",
