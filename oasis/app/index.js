@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Menu from "../components/Menu";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   bg_black,
   bg_dark,
@@ -13,10 +14,21 @@ import {
 } from "../variables/vars";
 // import { useState, useEffect } from "react";
 import { Pressable } from "react-native";
+import { useEffect, useState } from "react";
 
 export default function App() {
   // const [lang, setLang] = useState(languages[0]);
+  const [streak, setStreak] = useState(0);
+  const getStreak = async () => {
+    const streak = await AsyncStorage.getItem("streak");
+    return streak;
+  };
 
+  useEffect(() => {
+    getStreak().then((streak) => {
+      setStreak(streak);
+    });
+  }, []);
   return (
     <View style={styles.container}>
       <View style={welcome.welcome}>
@@ -29,7 +41,9 @@ export default function App() {
       >
         <View style={styles.top_level}>
           <Text style={text.checkup}>Today's Mood</Text>
-          <Text style={text.streak}>You're on a streak of 16!</Text>
+          <Text style={text.streak}>
+            You're on a streak of {streak === null ? 0 : streak}
+          </Text>
         </View>
       </Pressable>
       <View style={styles.middle}>
@@ -69,15 +83,6 @@ export default function App() {
         >
           <View style={boxes.left_box}>
             <Text style={text.left_box}>Routines</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            router.push("/diets");
-          }}
-        >
-          <View style={boxes.right_box}>
-            <Text style={text.right_box}>Healthy Diets</Text>
           </View>
         </Pressable>
       </View>
@@ -194,7 +199,7 @@ const boxes = StyleSheet.create({
   left_box: {
     alignItems: "center",
     justifyContent: "center",
-    width: 140,
+    width: 300,
     height: 140,
     backgroundColor: purple,
     // padding: 30,

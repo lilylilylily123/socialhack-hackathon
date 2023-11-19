@@ -1,16 +1,72 @@
 import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import { bg_dark, bg_black, bg_light } from "../variables/vars";
 import Menu from "../components/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import Slider from "@react-native-community/slider";
 // import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSmile, faMeh, faFrown } from "@fortawesome/free-solid-svg-icons";
-
+// import { getUniqueId } from "react-native-device-info";
+// import PocketBase from "pocketbase";
+// const pb = new PocketBase("https://oasis-socialhack-pds.pockethost.io");
+// const deviceID = getUniqueId();
 export default function Page() {
   const [press, setPress] = useState("");
   const [value, setValue] = useState(0);
+  const [streak, setStreak] = useState(0);
+  useEffect(() => {
+    loadStreak();
+  }, []);
+
+  const loadStreak = async () => {
+    try {
+      const storedStreak = await AsyncStorage.getItem("streak");
+      if (storedStreak !== null) {
+        setStreak(parseInt(storedStreak, 10));
+      }
+    } catch (error) {
+      console.error("Error loading streak:", error);
+    }
+  };
+  const updateStreak = async () => {
+    try {
+      const currentDate = new Date();
+      const date2 = currentDate.toDateString();
+      const storedMoodData = await AsyncStorage.getItem("mood");
+
+      if (storedMoodData) {
+        const parsedData = JSON.parse(storedMoodData);
+        if (parsedData.date === date2) {
+          await AsyncStorage.setItem("streak", (streak + 1).toString());
+          setStreak(streak + 1);
+        } else {
+          await AsyncStorage.setItem("streak", "1");
+          setStreak(1);
+        }
+      } else {
+        await AsyncStorage.setItem("streak", "1");
+        setStreak(1);
+      }
+      await AsyncStorage.setItem(
+        "mood",
+        JSON.stringify({ date: date2, mood: press, value: value }),
+      );
+    } catch (error) {
+      console.error("Error updating streak:", error);
+    }
+  };
+  const submitFunction = async () => {
+    const date = new Date();
+    const date2 = date.toDateString();
+    await AsyncStorage.setItem(
+      "mood",
+      JSON.stringify({ date: date2, mood: press, value: value }),
+    );
+    updateStreak();
+    router.push("/");
+  };
   return (
     <View style={styles.container}>
       <View style={welcome.welcome}>
@@ -79,7 +135,7 @@ export default function Page() {
       />
       <Pressable
         onPress={async () => {
-          value === 0 || press === "" ? router.push("/mood") : router.push("/");
+          value === 0 || press === "" ? router.push("/mood") : submitFunction();
         }}
         style={value === 0 || press === "" ? styles.submit2 : styles.submit}
       >
