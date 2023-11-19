@@ -2,11 +2,23 @@ import { StyleSheet, Text, View } from "react-native";
 import { bg_black, bg_dark, bg_light, purple, salmon } from "../variables/vars";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Menu({ settings, hotlines, progress }) {
   const [hotlineSelect, setHotlineSelect] = useState(false);
+  const [lang, setLang] = useState("");
+  const getLang = async () => {
+    const lang = await AsyncStorage.getItem("lang");
+    // console.log(lang);
+    return lang.toString();
+  };
+  useEffect(() => {
+    getLang().then((lang) => {
+      setLang(lang);
+    });
+  }, []);
   return (
     <View style={styles.container2}>
       {hotlineSelect && (
@@ -60,7 +72,7 @@ export default function Menu({ settings, hotlines, progress }) {
           >
             <View style={styles.left}>
               <Ionicons name="settings-outline" size={24} color="black" />
-              <Text>Settings</Text>
+              <Text>{lang === "en" ? "Settings" : "Configuracion"}</Text>
             </View>
           </Pressable>
         )) || (
@@ -71,7 +83,7 @@ export default function Menu({ settings, hotlines, progress }) {
           >
             <View style={styles.left}>
               <Ionicons name="home-outline" size={24} color="black" />
-              <Text> ‎ ‎Home‎‎‎ ‎‎‎‎‎‎‎‎‎ </Text>
+              <Text> ‎ ‎{lang === "en" ? "Home" : "Menu"}‎‎‎ ‎‎‎‎‎‎‎‎‎ </Text>
             </View>
           </Pressable>
         )}
@@ -86,7 +98,7 @@ export default function Menu({ settings, hotlines, progress }) {
               size={24}
               color="black"
             />
-            <Text>Hotlines</Text>
+            <Text>{lang === "en" ? "Hotline" : "Emergencias"}</Text>
           </View>
         </Pressable>
 
@@ -98,7 +110,7 @@ export default function Menu({ settings, hotlines, progress }) {
           >
             <View style={styles.right}>
               <Ionicons name="bar-chart-outline" size={24} color="black" />
-              <Text>Progress</Text>
+              <Text>{lang === "en" ? "Progress" : "Progreso"}‎‎‎</Text>
             </View>
           </Pressable>
         )) || (
@@ -109,7 +121,7 @@ export default function Menu({ settings, hotlines, progress }) {
           >
             <View style={styles.left}>
               <Ionicons name="home-outline" size={24} color="black" />
-              <Text>‎ ‎ Home‎‎ ‎ </Text>
+              <Text>‎ ‎ {lang === "en" ? "Home" : "Menu"}‎‎‎‎‎ ‎ </Text>
             </View>
           </Pressable>
         )}

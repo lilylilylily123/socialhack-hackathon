@@ -16,21 +16,10 @@ import {
   salmon,
   yellow,
 } from "../variables/vars";
-// import { useState, useEffect } from "react";
 import { Pressable } from "react-native";
 import { router } from "expo-router";
 
 export default function App() {
-  // const [lang, setLang] = useState(languages[0]);
-  const [fontsLoaded] = useFonts({
-    // RobotoFlex_700Bold,
-    // RobotoFlex_600SemiBold,
-    RobotoFlex_400Regular,
-    Raleway_400Regular,
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
     <View style={styles.container}>
       <View style={styles.other_container}>

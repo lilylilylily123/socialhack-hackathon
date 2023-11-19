@@ -19,7 +19,17 @@ export default function Page() {
   useEffect(() => {
     loadStreak();
   }, []);
-
+  const [lang, setLang] = useState("");
+  const getLang = async () => {
+    const lang = await AsyncStorage.getItem("lang");
+    // console.log(lang);
+    return lang.toString();
+  };
+  useEffect(() => {
+    getLang().then((lang) => {
+      setLang(lang);
+    });
+  }, []);
   const loadStreak = async () => {
     try {
       const storedStreak = await AsyncStorage.getItem("streak");
@@ -64,13 +74,19 @@ export default function Page() {
       "mood",
       JSON.stringify({ date: date2, mood: press, value: value }),
     );
+
     updateStreak();
     router.push("/");
   };
   return (
     <View style={styles.container}>
       <View style={welcome.welcome}>
-        <Text style={text2.welcome}>How are you feeling today?</Text>
+        <Text style={text2.welcome}>
+          {/* {lang} */}
+          {lang === "es"
+            ? "Como te sientes hoy?"
+            : "How are you feeling today?"}
+        </Text>
       </View>
       <View style={styles.icons}>
         <Pressable
@@ -113,7 +129,11 @@ export default function Page() {
       </View>
 
       <View style={welcome.welcome2}>
-        <Text style={text2.welcome}>How are you feeling today?</Text>
+        <Text style={text2.welcome}>
+          {lang === "es"
+            ? "Como te sientes hoy?"
+            : "How are you feeling today?"}
+        </Text>
       </View>
       <Slider
         step={0}
@@ -139,7 +159,9 @@ export default function Page() {
         }}
         style={value === 0 || press === "" ? styles.submit2 : styles.submit}
       >
-        <Text style={text2.welcome}>Submit</Text>
+        <Text style={text2.welcome}>
+          {lang === "es" ? "Guardar" : "Submit"}
+        </Text>
       </Pressable>
       <View style={styles.bottom_level}>
         <Menu settings={false} hotlines={true} progress={true} />

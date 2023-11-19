@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
-import { bg_dark } from "../../variables/vars";
+import { bg_dark, purple, salmon } from "../../variables/vars";
 import { useEffect, useState } from "react";
 import Menu from "../../components/Menu";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 const steps = [
-  ["Sit comfortably with a straight spine", 10],
-  ["Close your eyes and take a deep breath", 5],
+  ["Sit comfortably with a straight spine", 30],
+  ["Close your eyes and take a deep breath", 15],
   ["Hold your breath", 10],
   ["Exhale slowly and completely", 15],
   ["Hold your breath", 10],
@@ -21,9 +21,8 @@ export default function Page() {
       <CountdownCircleTimer
         isPlaying
         // key={key}
-        duration={10}
-        colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-        colorsTime={[7, 5, 2, 0]}
+        duration={30}
+        colors={salmon}
         onComplete={() => {
           // setKey((prevKey) => prevKey + 1);
           if (text[0] === "S") {
@@ -39,7 +38,7 @@ export default function Page() {
           }
         }}
       >
-        {({ remainingTime }) => <Text>{text}</Text>}
+        {({ remainingTime }) => <Text style={styles.text}>{text}</Text>}
       </CountdownCircleTimer>
       <View style={styles.bottom_level}>
         <Menu settings={false} hotlines={true} progress={true} />
@@ -49,6 +48,13 @@ export default function Page() {
 }
 
 const styles = StyleSheet.create({
+  text: {
+    fontWeight: "bold",
+    fontSize: 15,
+    padding: 10,
+    width: "80%",
+    textAlign: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: bg_dark,

@@ -19,20 +19,32 @@ import { useEffect, useState } from "react";
 export default function App() {
   // const [lang, setLang] = useState(languages[0]);
   const [streak, setStreak] = useState(0);
+  const [lang, setLang] = useState("");
   const getStreak = async () => {
     const streak = await AsyncStorage.getItem("streak");
     return streak;
   };
-
+  const getLang = async () => {
+    const lang = await AsyncStorage.getItem("lang");
+    // console.log(lang);
+    return lang.toString();
+  };
+  useEffect(() => {
+    getLang().then((lang) => {
+      setLang(lang);
+    });
+  }, []);
   useEffect(() => {
     getStreak().then((streak) => {
       setStreak(streak);
     });
-  }, []);
+  }, [streak]);
   return (
     <View style={styles.container}>
       <View style={welcome.welcome}>
-        <Text style={text.welcome}>Welcome back!</Text>
+        <Text style={text.welcome}>
+          {lang === "en" ? "Welcome back!" : "Bienvenido!"}
+        </Text>
       </View>
       <Pressable
         onPress={() => {
@@ -40,14 +52,19 @@ export default function App() {
         }}
       >
         <View style={styles.top_level}>
-          <Text style={text.checkup}>Today's Mood</Text>
+          <Text style={text.checkup}>
+            {lang === "en" ? "Today's Mood" : "Mood de Hoy"}
+          </Text>
           <Text style={text.streak}>
-            You're on a streak of {streak === null ? 0 : streak}
+            {lang === "en" ? "You're on a streak of" : "Estas en una racha de"}{" "}
+            {streak === null ? "0!" : `${streak}!`}
           </Text>
         </View>
       </Pressable>
       <View style={styles.middle}>
-        <Text style={text.meditate}>Meditation</Text>
+        <Text style={text.meditate}>
+          {lang === "en" ? "Meditation" : "Meditacion"}
+        </Text>
         <View style={meditate.btns}>
           <Pressable
             style={meditate.btn}
@@ -82,7 +99,9 @@ export default function App() {
           }}
         >
           <View style={boxes.left_box}>
-            <Text style={text.left_box}>Routines</Text>
+            <Text style={text.left_box}>
+              {lang === "en" ? "Routines" : "Rutinas"}
+            </Text>
           </View>
         </Pressable>
       </View>
